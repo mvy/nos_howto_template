@@ -15,7 +15,7 @@ application directory.
 It contains some php, so don't forget the script opening tag here. We will then
 have to customise the returned value (an array describing the application).
 Please notice the following important fields: `name` is the name of your
-application which will appear in the application mangager. `namespace` will be
+application which will appear in the application manager. `namespace` will be
 used in subsequent pages of the template.  `template` describes the template we
 are going to build. 
 
@@ -118,7 +118,7 @@ only work with pure data. Avoid putting function unrelated to any kind of data
 formatting like database call, content parsing and so on. If you need more, you
 should look for a View Model.
 
-## View Models
+### View Models
 
 View models will help us develop more dynamic content. In this section, we will
 try to generate some HTML code allowing the user to switch between page contexts
