@@ -159,8 +159,6 @@ create a `$name` variable filled with `something` content in the view.
 
     <?php
 
-    namespace UL\Templates\Basic;
-
     namespace HowTo\Templates\Basic;
 
         protected $_view = 'howto_template::widget/lang';
