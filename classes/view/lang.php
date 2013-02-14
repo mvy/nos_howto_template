@@ -4,7 +4,7 @@ namespace Howto\Templates\Basic;
 
 class View_Lang extends \ViewModel {
 
-    protected $_view = 'hwoto_template::widget/lang';
+    protected $_view = 'howto_template::widget/lang';
 
     protected function find_langs() {
         $pages = \Nos\Nos::main_controller()->getPage()->find_context('all');

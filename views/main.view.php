@@ -15,5 +15,7 @@
 
     <?= $wysiwyg['content'] ?>
     </div>
+
+    <?=\ViewModel::forge('HowTo\Templates\Basic\View_Lang');?>
 </body>
 </html>
