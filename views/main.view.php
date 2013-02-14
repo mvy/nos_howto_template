@@ -9,12 +9,11 @@
 </head>
 
 <body>
-    <div id="sitebox">
-        <div id="pagecontent">
-        <h1 class="title noverticalmargin"><?= $title ?></h1>
+    <?=\View::forge('howto_template::subviews/header'); ?>
+    <div id="pagecontent">
+    <h1 class="title noverticalmargin"><?= $title ?></h1>
 
-        <?= $wysiwyg['content'] ?>
-        </div>
+    <?= $wysiwyg['content'] ?>
     </div>
 </body>
 </html>

@@ -88,5 +88,121 @@ simply use the WYSIWYG editor.
 
 ## Getting deeper
 
+### Subviews
 
+The main view is defined, here we can put all the static HTML/CSS code we want.
+It is possible to include subviews. To do this, we use the
+`\View::forge('howto_template::subwiews/header');` php line. This function comes
+from the FuelPHP framework. You can search the documentation for more details
+(like passing parameters). 
+
+Our header is simple enough not to require this. We add the header code in
+`views/subviews/header.view.php` : 
+
+    <div id="headline" >
+        <div id="logo">
+            <a href="/">
+                <img src="static/apps/howto_template/img/howto.png">
+            </a>
+        </div>
+    </div>
+
+Do not forget to put your `howto.png` in `static/img/` and update the
+application via the manager if you created the `static` directory after
+installing the application. This will trigger the creation of a symbolic link
+between `static/apps/howto_template/` and
+`local/applications/howto_template/static`. 
+
+Remember that, to fit with the Model View Controller pattern, the view should
+only work with pure data. Avoid putting function unrelated to any kind of data
+formatting like database call, content parsing and so on. If you need more, you
+should look for a View Model.
+
+## View Models
+
+View models will help us develop more dynamic content. In this section, we will
+try to generate some HTML code allowing the user to switch between page contexts
+(languages) when they are available. A full example can be found in one of my
+git repository.
+
+As we need to look into the database for context availability, we won't call the
+view right away. Instead, we call a view model. 
+
+    <?=\ViewModel::forge('HowTo\Templates\Basic\View_Lang'); ?>
+
+This instruction will look for a class located at `classes/view/lang.php` name
+`View_Lang`. This class must extend `\ViewModel`, set the view to be called by
+defining `protected $_view = 'howto_template::widget/lang';` and implement a
+`public function view()`. 
+
+This is the basic setup : 
+
+    <?php
+
+    namespace HowTo\Templates\Basic;
+
+    class View_Lang extends \ViewModel {
+
+        protected $_view = 'howto_template::widget/lang';
+
+        public function view() {
+        }
+    }
+
+We can add some code in function now. To do what we need, we first call upon the
+main controller which can give us the current page and look for other context.
+We then extract the URL and context name from the returned array and we return a
+list of `(lang, url)` couples.
+
+In the view function, all affectations like `$this->name = something` will
+create a `$name` variable filled with `something` content in the view.
+
+    <?php
+
+    namespace UL\Templates\Basic;
+
+    namespace HowTo\Templates\Basic;
+
+        protected $_view = 'howto_template::widget/lang';
+
+        protected function find_langs() {
+            $pages = \Nos\Nos::main_controller()->getPage()->find_context('all');
+
+            $result = array();
+
+            /* URL extraction */
+            if(count($pages)) {
+                foreach($pages as $page) {
+                    $new = array(
+                            'lang' => $page['page_context'],
+                            'url' => $page->url(),
+                            );
+
+                    array_push($result, $new);
+                }
+            }
+            return $result;
+        }
+
+        public function view() {
+            $this->list = $this->find_langs();
+        }
+    }
+
+The view is the file we set up in `$_view`, i.e. `views/widget/lang.view.php`.
+Here is an example of the view : 
+
+    <div id="lang_widget">
+    <? if(count($list)) { ?>
+        <ul>
+        <? foreach($list as $element) { ?> 
+            <li><a href="<?= $element['url'] ?>">
+            <?= $element['lang'] ?>
+            </a></li>
+        <? }
+    } ?>
+    </ul>
+    </div>
+
+##### vim specific
 vim:ft=markdown spl=en spell: 
